@@ -1,8 +1,7 @@
-//import React, {Component } from 'react';
 import React from 'react';
-import ReactDOM from 'react-dom'
+//import ReactDOM from 'react-dom'
 
-class App extends React.Component {
+/*class App extends React.Component {
   constructor(){
     super()
     this.state ={
@@ -29,10 +28,7 @@ class App extends React.Component {
       </div>
     )
   }
-}
-
-
-class App extends React.Component {
+class App2 extends React.Component {
   constructor(){
     super()
     this.state = {
@@ -55,9 +51,7 @@ class App extends React.Component {
       </div>
     )
   }
-}
-
-class App extends React.Component {
+class App3 extends React.Component {
   constructor(){
   super();
     this.state = {
@@ -82,10 +76,52 @@ class App extends React.Component {
       </div>
     )
   }
+    }
+  }
+}*/
 
-
-
+class App extends React.Component {
+constructor(){
+  super();
+  this.state = {
+    items :[]
+  }
+}
+filter(e){
+  this.setState({filter:e.target.value})
+}
+componentWillMount(){
+  //var url ="https://swapi.co/api/people/?format=json";
+  //fetch
+  fetch('https://swapi.co/api/people/?format=json').then(response =>response.json())
+    .then(({results:items})=>this.setState({items}))
+}
+render(){
+  let items = this.state.items
+  if(this.state.filter){
+    items = items.filter(item=>item.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+  }
+  /*for(var i=0;i<items.length;i++){
+    console.log(items[i].vehicles);
+  }*/
+  return (
+    <div>
+      Search By Name : <input type="text" onChange={this.filter.bind(this)}/>
+      {items.map(item=> <Person update={item}/>)}
+    </div>
+  )
+}
 }
 
+const Person = (prop) =>
+<div>
+<h3>Name :{prop.update.name} <br/>
+Vehicles: {prop.update.vehicles} <br/>
+Films: {prop.update.films}<br/>
+Starships:{prop.update.starships[0,1]} </h3>
+</div>
 
-export default App;
+export default App
+
+
+
